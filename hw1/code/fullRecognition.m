@@ -1,0 +1,8 @@
+
+
+%computeDictionary
+%batchToVisualWords();
+
+buildRecognitionSystem
+
+evaluateRecognitionSystem

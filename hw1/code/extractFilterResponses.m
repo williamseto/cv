@@ -29,9 +29,9 @@ filterResponses = zeros(pixelCount, length(filterBank)*3);
 
 
 for i=1:length(filterBank)
-    filtered_L = imfilter(L, filterBank{i});
-    filtered_a = imfilter(a, filterBank{i});
-    filtered_b = imfilter(b, filterBank{i});
+    filtered_L = imfilter(L, filterBank{i}, 'replicate');
+    filtered_a = imfilter(a, filterBank{i}, 'replicate');
+    filtered_b = imfilter(b, filterBank{i}, 'replicate');
     
     %reshape by stacking columns
     filterResponses(:, (i-1)*3+1) = reshape(filtered_L, [], 1);

@@ -2,7 +2,7 @@ function [ filterBank, dictionary ] = getFilterBankAndDictionary( image_names )
 %GETFILTERBANKANDDICTIONARY Summary of this function goes here
 %   Detailed explanation goes here
 
-    alpha = 50;
+    alpha = 150;
     K = 100;
     
     filterBank = createFilterBank();
@@ -11,10 +11,13 @@ function [ filterBank, dictionary ] = getFilterBankAndDictionary( image_names )
     
     for i=1:length(image_names)
         
+        % to see the progress
         i
         
         im = imread(image_names{i});
         pixelCount = size(im,1)*size(im,2);
+
+        
         randpix = randperm(pixelCount, alpha);
         
         response = extractFilterResponses(im, filterBank);

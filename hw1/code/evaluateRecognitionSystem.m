@@ -4,17 +4,18 @@ clear;
 load('../dat/traintest.mat'); 
 load('vision.mat');
 
-C = zeros(8,8);
 
-correct = 0;
+% used for plotconfusion
+predicted_labels = zeros(8, size(test_imagenames, 2));
+actual_labels = zeros(8, size(test_imagenames, 2));
+
 
 imagenames = strcat(['../dat/'], test_imagenames);
 
 test_wordmaps = strcat(['../dat/'], strrep(test_imagenames, '.jpg', '.mat'));
 for i=1:length(test_wordmaps)
     load(test_wordmaps{i}); 
-    
-    %h = getImageFeatures(wordMap, size(dictionary, 2));
+
     h = getImageFeaturesSPM(3, wordMap, size(dictionary,2));
     
     distances = distanceToSet(h, train_features);
@@ -22,12 +23,9 @@ for i=1:length(test_wordmaps)
     
     label = train_labels(nnI);
     
-    if label == test_labels(i)
-        correct = correct + 1;
-    end
+    predicted_labels(label, i) = 1;
+    actual_labels(test_labels(i), i) = 1;
     
-    C(test_labels(i), label) = C(test_labels(i), label) + 1;
-    i
 end
 
-correct / length(test_imagenames)
+plotconfusion(actual_labels, predicted_labels)

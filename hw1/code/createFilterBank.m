@@ -36,10 +36,12 @@ for scale = dyScales
     filterBank{idx} = f;
 end
 
+
 for angle = gaborAngles
     idx = idx + 1;
     f = gabor_fn(2, 0, 5, 0, 1);
     filterBank{idx} = f;
 end
+
 
 return;

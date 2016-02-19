@@ -2,20 +2,22 @@ function [locsDoG] = getLocalExtrema(DoGPyramid, DoGLevels, PrincipalCurvature, 
 %GETLOCALEXTREMA Summary of this function goes here
 %   Detailed explanation goes here
 
-dog_size = size(DoGPyramid);
-extrema = true(dog_size(1:2));
+maxima = find(imregionalmax(DoGPyramid) & (abs(DoGPyramid) > th_contrast) & (PrincipalCurvature < th_r));
 
-%must satisfy for all levels
-for i=1:length(DoGLevels)
-    extrema = extrema & (abs(DoGPyramid(:,:,i)) > th_contrast);
-end
+minima = find(imregionalmin(DoGPyramid) & (abs(DoGPyramid) > th_contrast) & (PrincipalCurvature < th_r));
 
-%convert to indices
-extrema = find(extrema);
+%without edge suppression
+%maxima = find(imregionalmax(DoGPyramid) & (abs(DoGPyramid) > th_contrast));
+%minima = find(imregionalmin(DoGPyramid) & (abs(DoGPyramid) > th_contrast));
 
-[X, Y, L] = ind2sub(dog_size(2, extrema);
+%convert to subscripts
 
-locsDoG = [Y, X, DoGLevels(L)'];
+[maxX, maxY, maxL] = ind2sub(size(DoGPyramid), maxima);
+[minX, minY, minL] = ind2sub(size(DoGPyramid), minima);
+
+%output coordinates in image coordinate system
+locsDoG = [maxY, maxX, DoGLevels(maxL)';
+           minY, minX, DoGLevels(minL)'];
 
 end
 
